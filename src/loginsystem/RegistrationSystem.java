@@ -18,6 +18,11 @@ public class RegistrationSystem implements Serializable {
     String userFile = "/Users/peter/programs/loginsystem-bitstrips18/users.txt";
     String delimit = "@@";
 
+    /**
+     * Creates a new user and appends it to the text file
+     * @param r
+     * @throws IOException 
+     */
     public void register(User r) throws IOException {
         BufferedWriter reg = new BufferedWriter(new FileWriter(userFile, true));
         String encryptedPass = this.encrypt(r.getPassword());
@@ -26,6 +31,10 @@ public class RegistrationSystem implements Serializable {
     }
     
 
+    /**
+    * Converts the Users stored in the text file into an array list
+    * @return the array list of users
+    */
     public ArrayList<User>  readFile() {
         ArrayList<User> listofUsers = new ArrayList<User>();
         try {
@@ -48,17 +57,29 @@ public class RegistrationSystem implements Serializable {
         return listofUsers;
     }
 
+    /**
+     * Checks if the user input username is already taken, using the array list
+     * @param tempuser
+     * @param listofUsers
+     * @return true or false
+     */
     public boolean validUsername(String tempuser,ArrayList<User> listofUsers) {
         ListIterator<User> iterator = listofUsers.listIterator();
         while (iterator.hasNext()) {
             User a = iterator.next();
-            if (a.getUsername() == tempuser) {
+            if (a.getUsername().equals(tempuser)) {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Checks if the user input password is usable according to the guidelines
+     * @param temppass
+     * @return true or false
+     * @throws IOException 
+     */
     public boolean validPassword(String temppass) throws IOException {
         String passFile = "/Users/peter/programs/loginsystem-bitstrips18/dictbadpass.txt";
         // Check for bad password
@@ -111,8 +132,13 @@ public class RegistrationSystem implements Serializable {
         // Passed all checks
         return true;
     }
-
-    private String encrypt(String password) {
+    
+    /**
+     * Encrypts the password using MD5
+     * @param password
+     * @return the encrypted password
+     */
+    public static String encrypt(String password) {
         try {
             //java helper class to perform encryption
             MessageDigest md = MessageDigest.getInstance("MD5");

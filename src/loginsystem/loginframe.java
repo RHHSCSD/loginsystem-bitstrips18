@@ -4,6 +4,10 @@
  */
 package loginsystem;
 
+import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+
 /**
  *
  * @author peter
@@ -102,7 +106,32 @@ public class loginframe extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        boolean correctUser = false;
+        boolean correctPass = false;
+        String tempusername = jTextField1.getText();
+        String temppassword = RegistrationSystem.encrypt(String.valueOf(jPasswordField1.getPassword()));
         
+        RegistrationSystem accCheck = new RegistrationSystem();
+       ArrayList<User> userList  = accCheck.readFile();
+       for(int i = 0; i<userList.size(); i++){
+       if(tempusername.equals(userList.get(i).getUsername()) ){
+           correctUser = true;
+           System.out.println("Username matches");
+
+           if(temppassword.equals(userList.get(i).getPassword())){
+               correctPass = true;
+               System.out.println("Password matches");
+           }
+            }    
+        }
+       
+       if(correctUser && correctPass){
+           JDialog success = new JDialog(this, "dialog box");
+           JLabel login = new JLabel("Login Successful.");
+           success.add(login);
+           success.setSize(400,400);
+           success.setVisible(true);
+       }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -117,37 +146,7 @@ public class loginframe extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new loginframe().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
