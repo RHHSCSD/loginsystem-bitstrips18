@@ -15,6 +15,11 @@ public class LoginSystem {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //register r = new register("Name", "phoneNumber");
+       registerframe regi = new registerframe();
+       regi.setVisible(true);
+       regi.pack();
+       regi.setLocationRelativeTo(null);
     }
     
 }
